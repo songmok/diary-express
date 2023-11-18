@@ -11,11 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/hello", (req, res) => {
   res.send({ message: `Hello Express!` });
 });
-
-app.get("/api/customers", (req, res) => {
-  res.send([{ id: 1 }, { id: 2 }]);
-});
-
+// Post Router
+app.use("/api/post", require("./router/Post.js"));
+// User Router
+app.use("/api/user", require("./router/User.js"));
 app.listen(port, () => {
   const mongoURI = process.env.MONGO_URI;
   mongoose
