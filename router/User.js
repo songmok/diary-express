@@ -3,6 +3,9 @@ let router = express.Router();
 
 const { User } = require("../model/UserModel");
 // 사용자 가입 등록
+router.get("/hello", (req, res) => {
+  res.send({ message: `Hello Express!` });
+});
 router.post("/register", (req, res) => {
   console.log(req.body);
   const userData = new User(req.body);
@@ -15,6 +18,9 @@ router.post("/register", (req, res) => {
       console.log(err);
       res.status(400).json({ success: false });
     });
+});
+router.get("", (req, res) => {
+  res.send({ message: `Hello Express!` });
 });
 // 이름 중복 검사
 router.post("/namecheck", (req, res) => {

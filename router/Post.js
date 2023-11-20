@@ -12,6 +12,7 @@ router.post("/submit", (req, res) => {
     title: req.body.title,
     completed: req.body.completed,
     uid: req.body.uid,
+    date: req.body.date,
   };
   User.findOne({ uid: req.body.uid })
     .exec()
