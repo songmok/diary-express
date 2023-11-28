@@ -18,6 +18,8 @@ app.get("/api/hello", (req, res) => {
 app.use("/api/post", require("./router/Post.js"));
 // User Router
 app.use("/api/user", require("./router/User.js"));
+// Cate Router
+app.use("/api/cate", require("./router/Cate.js"));
 app.listen(port, () => {
   const mongoURI = process.env.MONGO_URI;
   mongoose

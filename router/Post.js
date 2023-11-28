@@ -4,15 +4,15 @@ const router = express.Router();
 const { Todo } = require("../model/TodoModel");
 const { User } = require("../model/UserModel");
 
+// 데이터 생성
 router.post("/submit", (req, res) => {
-  console.log("정보", req.body);
-
   let temp = {
     id: req.body.id,
-    title: req.body.title,
     completed: req.body.completed,
+    desc: req.body.desc,
     uid: req.body.uid,
     date: req.body.date,
+    category: req.body.category,
   };
   User.findOne({ uid: req.body.uid })
     .exec()
@@ -22,17 +22,23 @@ router.post("/submit", (req, res) => {
       todoPost
         .save()
         .then(() => {
-          res.status(200).json({ succese: true });
+          res.status(200).json({
+            success: true,
+            message: "데이터가 생성되었습니다.",
+          });
         })
         .catch((err) => {
           console.log("에러", err);
-          res.status(400).json({ succese: false });
+          res
+            .status(400)
+            .json({ success: false, message: "데이터가 생성되었습니다." });
         });
     })
     .catch((err) => {
       console.log("에러", err);
     });
 });
+// 리스트 호출
 router.post("/list", (req, res) => {
   console.log("전체목록 호출", req.body);
   let sort = {};

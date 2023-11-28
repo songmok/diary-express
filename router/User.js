@@ -61,4 +61,21 @@ router.post("/update", (req, res) => {
       res.status(400).json({ success: false });
     });
 });
+router.post("/userout", (req, res) => {
+  let temp = {
+    uid: req.body.uid,
+  };
+  User.findOneAndDelete({ uid: temp.uid }, (err, deletedUser) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ success: false, message: "회원 정보 삭제 실패" });
+    } else {
+      if (deletedUser) {
+        res.json({ success: true, message: "회원 탈퇴되었습니다." });
+      } else {
+        res.json({ success: false, message: "회원 정보가 존재하지 않습니다." });
+      }
+    }
+  });
+});
 module.exports = router;
