@@ -7,10 +7,8 @@ const { User } = require("../model/UserModel");
 // 카테고리 생성
 router.post("/categories", (req, res) => {
   let temp = {
-    id: req.body.id,
     cateName: req.body.cateName,
     uid: req.body.uid,
-    completed: req.body.completed,
   };
   User.findOne({ uid: req.body.uid })
     .exec()

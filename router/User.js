@@ -7,7 +7,6 @@ router.get("/hello", (req, res) => {
   res.send({ message: `Hello Express!` });
 });
 router.post("/register", (req, res) => {
-  console.log(req.body);
   const userData = new User(req.body);
   userData
     .save()
@@ -24,7 +23,6 @@ router.get("", (req, res) => {
 });
 // 이름 중복 검사
 router.post("/namecheck", (req, res) => {
-  console.log(req.body.displayName);
   User.findOne({ displayName: req.body.displayName })
     .exec()
     .then((doc) => {
@@ -49,7 +47,6 @@ router.post("/update", (req, res) => {
     displayName: req.body.displayName,
     uid: req.body.uid,
   };
-  console.log(temp);
   User.updateOne({ uid: req.body.uid }, { $set: temp })
     .exec()
     .then(() => {
