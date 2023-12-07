@@ -45,14 +45,22 @@ router.post("/categories", (req, res) => {
 
 // 카테고리 조회
 router.get("/categet", (req, res) => {
-  Cate.find()
+  const { uid } = req.query;
+
+  Cate.find({ uid: uid })
     .exec()
-    .then((categories) => {
-      res.status(200).json({
-        success: true,
-        message: "카테고리 조회 성공",
-        categories: categories,
-      });
+    .then((category) => {
+      if (category) {
+        res.status(200).json({
+          success: true,
+          message: "카테고리 조회 성공",
+          category: category,
+        });
+      } else {
+        res
+          .status(404)
+          .json({ success: false, message: "카테고리를 찾을 수 없음" });
+      }
     })
     .catch((error) => {
       console.error(error);
