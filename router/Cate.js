@@ -69,8 +69,7 @@ router.get("/categet", (req, res) => {
 });
 // 카테고리 삭제
 router.delete("/delete", (req, res) => {
-  console.log(req.body);
-  Cate.deleteOne({ id: req.body.id })
+  Cate.deleteOne({ _id: req.body.id })
     .exec()
     .then(() => {
       res.status(200).json({ success: true });

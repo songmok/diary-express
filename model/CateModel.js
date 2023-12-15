@@ -4,6 +4,7 @@ const cateSchema = new mongoose.Schema(
   {
     cateName: String,
     uid: String,
+    visible: Boolean,
   },
   { collection: "categories" }
 );

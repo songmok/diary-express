@@ -7,7 +7,7 @@ const todoSchema = new mongoose.Schema(
     uid: String,
     date: String,
     desc: String,
-    category: String,
+    cateName: String,
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

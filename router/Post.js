@@ -12,7 +12,7 @@ router.post("/submit", (req, res) => {
     desc: req.body.desc,
     uid: req.body.uid,
     date: req.body.date,
-    category: req.body.category,
+    cateName: req.body.category,
   };
   User.findOne({ uid: req.body.uid })
     .exec()
