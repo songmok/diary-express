@@ -7,12 +7,13 @@ const { User } = require("../model/UserModel");
 // 데이터 생성
 router.post("/submit", (req, res) => {
   let temp = {
-    id: req.body.id,
+    todoId: req.body.id,
     completed: req.body.completed,
     desc: req.body.desc,
     uid: req.body.uid,
     date: req.body.date,
-    cateName: req.body.category,
+    cateName: req.body.cateName,
+    cateId: req.body.cateId,
   };
   User.findOne({ uid: req.body.uid })
     .exec()
@@ -39,44 +40,44 @@ router.post("/submit", (req, res) => {
     });
 });
 // 리스트 호출
-router.post("/list", (req, res) => {
-  console.log("전체목록 호출", req.body);
-  let sort = {};
-  if (req.body.sort === "최신글") {
-    sort = { id: -1 };
-  } else {
-    sort = { id: 1 };
-  }
-  Todo.find({ title: new RegExp(req.body.search), uid: req.body.uid })
+router.get("/todoget", (req, res) => {
+  const { uid } = req.query;
+
+  Todo.find({
+    uid: uid,
+  })
     .populate("author")
-    .sort(sort)
-    .skip(req.body.skip) // 0 ~ 4, 5 ~ 9, 10~14
-    .limit(5)
     .exec()
     .then((doc) => {
-      console.log(doc);
-      Todo.count({
-        title: new RegExp(req.body.search),
-        uid: req.body.uid,
-      })
-        .then((number) => {
-          console.log(number);
-          res.status(200).json({ success: true, initTodo: doc, total: number });
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).json({ success: false });
-        });
+      res.status(200).json({ success: true, initTodo: doc });
     })
     .catch((error) => {
       console.log(error);
       res.status(400).json({ success: false });
     });
 });
-// 타이틀 업데이트
-router.post("/updatetoggle", (req, res) => {
+router.get("/todoOneGet", (req, res) => {
+  Todo.find({
+    uid: req.body.uid,
+    date: req.body.date,
+    cateName: req.body.cateName,
+  })
+    .populate("author")
+    .exec()
+    .then((doc) => {
+      console.log(number);
+      res.status(200).json({ success: true, initTodo: doc, total: number });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({ success: false });
+    });
+});
+
+// 수정
+router.post("/updateTodo", (req, res) => {
   let temp = {
-    title: req.body.title,
+    desc: req.body.desc,
   };
 
   Todo.updateOne({ id: req.body.id }, { $set: temp })

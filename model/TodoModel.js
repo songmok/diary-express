@@ -2,12 +2,13 @@
 const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema(
   {
-    id: Number,
+    todoId: Number,
     completed: Boolean,
     uid: String,
     date: String,
     desc: String,
     cateName: String,
+    cateId: Number,
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

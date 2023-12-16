@@ -7,6 +7,7 @@ const { User } = require("../model/UserModel");
 // 카테고리 생성
 router.post("/categories", (req, res) => {
   let temp = {
+    cateId: req.body.cateId,
     cateName: req.body.cateName,
     uid: req.body.uid,
   };
