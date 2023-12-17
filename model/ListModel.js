@@ -14,7 +14,7 @@ const todoSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { collection: "todos" }
+  { collection: "lists" }
 );
-const Todo = mongoose.model("Todo", todoSchema);
-module.exports = { Todo };
+const List = mongoose.model("list", todoSchema);
+module.exports = { List };

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { Todo } = require("../model/TodoModel");
+const { List } = require("../model/ListModel");
 const { User } = require("../model/UserModel");
 
 // 데이터 생성
 router.post("/submit", (req, res) => {
   let temp = {
-    todoId: req.body.id,
+    listId: req.body.id,
     completed: req.body.completed,
     desc: req.body.desc,
     uid: req.body.uid,
@@ -19,7 +19,7 @@ router.post("/submit", (req, res) => {
     .exec()
     .then((userInfo) => {
       temp.author = userInfo._id;
-      const todoPost = new Todo(temp);
+      const todoPost = new List(temp);
       todoPost
         .save()
         .then(() => {
@@ -40,33 +40,31 @@ router.post("/submit", (req, res) => {
     });
 });
 // 리스트 호출
-router.get("/todoget", (req, res) => {
+router.get("/listget", (req, res) => {
   const { uid } = req.query;
-
-  Todo.find({
+  List.find({
     uid: uid,
   })
     .populate("author")
     .exec()
     .then((doc) => {
-      res.status(200).json({ success: true, initTodo: doc });
+      res.status(200).json({ success: true, initList: doc });
     })
     .catch((error) => {
       console.log(error);
       res.status(400).json({ success: false });
     });
 });
-router.get("/todoOneGet", (req, res) => {
-  Todo.find({
-    uid: req.body.uid,
-    date: req.body.date,
-    cateName: req.body.cateName,
+router.get("/listDateGet", (req, res) => {
+  const { uid, date } = req.query;
+  List.find({
+    uid: uid,
+    date: date,
   })
     .populate("author")
     .exec()
     .then((doc) => {
-      console.log(number);
-      res.status(200).json({ success: true, initTodo: doc, total: number });
+      res.status(200).json({ success: true, initList: doc });
     })
     .catch((error) => {
       console.log(error);
@@ -75,12 +73,12 @@ router.get("/todoOneGet", (req, res) => {
 });
 
 // 수정
-router.post("/updateTodo", (req, res) => {
+router.post("/updateList", (req, res) => {
   let temp = {
     desc: req.body.desc,
   };
 
-  Todo.updateOne({ id: req.body.id }, { $set: temp })
+  List.updateOne({ id: req.body.id }, { $set: temp })
     .exec()
     .then(() => {
       res.status(200).json({ succese: true });
@@ -92,7 +90,7 @@ router.post("/updateTodo", (req, res) => {
 // 삭제
 router.delete("/delete", (req, res) => {
   console.log(req.body);
-  Todo.deleteOne({ id: req.body.id })
+  List.deleteOne({ id: req.body.id })
     .exec()
     .then(() => {
       res.status(200).json({ success: true });
@@ -104,7 +102,7 @@ router.delete("/delete", (req, res) => {
 });
 // 전체삭제
 router.delete("/deleteall", (req, res) => {
-  Todo.deleteMany()
+  List.deleteMany()
     .exec()
     .then(() => {
       res.status(200).json({ success: true });
